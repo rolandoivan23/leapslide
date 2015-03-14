@@ -8,3 +8,5 @@ meteor-platform
 autopublish
 accounts-ui
 accounts-password
+accounts-facebook
+service-configuration

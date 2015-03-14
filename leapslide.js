@@ -1,6 +1,7 @@
 presentaciones_coll = new Mongo.Collection("presentaciones_coll");
 
 if (Meteor.isClient) {
+  //Meteor.suscribe('cambiar_diapositiva');
   Template.presentaciones_temp.helpers({
     presentaciones: function(){return presentaciones_coll.find({})}
   });
@@ -13,6 +14,23 @@ if (Meteor.isClient) {
         Meteor.call('crear_presentacion', nombre, desc);
     }
   });
+  Template.login.events({
+    'click #facebook-login': function(event) {
+        Meteor.loginWithFacebook({}, function(err){
+            if (err) {
+                throw new Meteor.Error("Facebook login failed");
+            }
+        });
+    },
+
+    'click #logout': function(event) {
+        Meteor.logout(function(err){
+            if (err) {
+                throw new Meteor.Error("Logout failed");
+            }
+        })
+    }
+    });
 
 }
 
@@ -36,4 +54,14 @@ Meteor.methods({
             creador: Meteor.userId()
         });
     }
+});
+
+ServiceConfiguration.configurations.remove({
+    service: 'facebook'
+});
+
+ServiceConfiguration.configurations.insert({
+    service: 'facebook',
+    appId: '402732173235031',
+    secret: '0f22ddd7aae0190718e64c9dea0dec36'
 });
