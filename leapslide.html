@@ -7,24 +7,36 @@
       {{> loginButtons}}
   </div>
   <h1>LeapSlide</h1>
-  {{>presentaciones}}
+  {{> presentaciones_temp}}
 
 </body>
 
-<template name="presentaciones">
+<template name="presentaciones_temp">
   <h2>Tus presentaciones</h2>
-    <form>
+    <form class="presentaciones-form">
         <input type="text" name="nombre" placeholder="Nombre">
         <input type="text" name="descripcion" placeholder="Descripción">
         <input type="submit" name="presentacion-submit" value="Crear">
     </form>
-  <ul>
-      {{#each presentaciones}}
-        {{> presentacion}}
-      {{/each}}
-  </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each presentaciones}}
+                {{> presentacion}}
+            {{/each}}
+        </tbody>
+    </table>
+
+
 </template>
 
 <template name="presentacion">
-    {{nombre}}
+    <tr>
+        <li>{{nombre}}n---{{descripcion}}d</li>
+    </tr>
 </template>

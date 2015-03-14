@@ -1,30 +1,17 @@
+presentaciones_coll = new Mongo.Collection("presentaciones_coll");
+
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+  Template.presentaciones_temp.helpers({
+    presentaciones: function(){return presentaciones_coll.find({})}
+  });
 
-  presentaciones = new Mongo.collection('presentaciones');
+  Template.presentaciones_temp.events({
+    'submit .presentaciones-form': function(event){
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
+        nombre = event.target.nombre.value;
+        desc = event.target.descripcion.value;
+        Meteor.call('crear_presentacion', nombre, desc);
     }
-  });
-
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
-
-  Template.body.helpers({
-    presentaciones: function(){return presentaciones.find(), {sort: {fecha_creacion: -1}}}
-  });
-
-  Template.body.events({
-     crear_presentacion: function(){
-
-     }
   });
 
 }
@@ -34,3 +21,19 @@ if (Meteor.isServer) {
     // code to run on server at startup
   });
 }
+
+Meteor.methods({
+    crear_presentacion: function(nombre, descripcion){
+        if(!Meteor.userId()){
+            alert('Fallo la creacion');
+            throw new Meteor.Error('No autorizado');
+        }
+
+        presentaciones_coll.insert({
+            nombre: nombre,
+            descripcion: descripcion,
+            createdAt: new Date(),
+            creador: Meteor.userId()
+        });
+    }
+});
