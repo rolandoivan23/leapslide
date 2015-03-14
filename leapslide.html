@@ -1,0 +1,30 @@
+<head>
+  <title>leapslide</title>
+</head>
+
+<body>
+  <div class="login-container">
+      {{> loginButtons}}
+  </div>
+  <h1>LeapSlide</h1>
+  {{>presentaciones}}
+
+</body>
+
+<template name="presentaciones">
+  <h2>Tus presentaciones</h2>
+    <form>
+        <input type="text" name="nombre" placeholder="Nombre">
+        <input type="text" name="descripcion" placeholder="Descripción">
+        <input type="submit" name="presentacion-submit" value="Crear">
+    </form>
+  <ul>
+      {{#each presentaciones}}
+        {{> presentacion}}
+      {{/each}}
+  </ul>
+</template>
+
+<template name="presentacion">
+    {{nombre}}
+</template>
